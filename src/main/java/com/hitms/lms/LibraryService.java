@@ -1,6 +1,7 @@
 package com.hitms.lms;
 
 import com.hitms.lms.model.Book;
+import com.hitms.lms.model.Member;
 import com.hitms.lms.util.LibraryUtils;
 
 import java.util.ArrayList;
@@ -10,13 +11,16 @@ import java.util.Map;
 
 /**
  * Business logic of the library: adding books, issuing and returning
- * copies. All state lives in plain collections for the lifetime of the
- * program.
+ * copies, and looking up members. All state lives in plain collections
+ * for the lifetime of the program.
  */
 public class LibraryService {
 
     /** Catalogue of books keyed by normalised title. */
     private final Map<String, Book> catalogue = new HashMap<>();   // title -> book
+
+    /** Registered members keyed by membership number. */
+    private final Map<String, Member> members = new HashMap<>();   // id -> member
 
     /**
      * Adds copies of a title to the catalogue. The first add creates the
@@ -36,6 +40,16 @@ public class LibraryService {
                 book.returnCopy();
             }
         }
+    }
+
+    /**
+     * Registers a member with the given id and name.
+     *
+     * @param id   the membership number, for example M101
+     * @param name the member name
+     */
+    public void addMember(String id, String name) {
+        members.put(new Member(id, name).getId(), new Member(id, name));
     }
 
     /**
@@ -90,5 +104,33 @@ public class LibraryService {
      */
     public List<Book> listBooks() {
         return new ArrayList<>(catalogue.values());
+    }
+
+    /**
+     * Finds a member by their membership number, accepting "m101" and
+     * "M101" alike.
+     *
+     * @param id the membership number
+     * @return the matching member
+     * @throws MemberNotFoundException when the id was never registered
+     */
+    public Member findMemberById(String id) throws MemberNotFoundException {
+        if (id == null || id.strip().isEmpty()) {
+            throw new MemberNotFoundException("Member id cannot be blank.");
+        }
+        Member member = members.get(id.strip().toUpperCase());
+        if (member == null) {
+            throw new MemberNotFoundException("No member found with id " + id.strip().toUpperCase() + ".");
+        }
+        return member;
+    }
+
+    /**
+     * Lists every registered member.
+     *
+     * @return the members in no guaranteed order
+     */
+    public List<Member> listMembers() {
+        return new ArrayList<>(members.values());
     }
 }

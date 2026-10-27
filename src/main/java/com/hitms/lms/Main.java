@@ -2,12 +2,14 @@ package com.hitms.lms;
 
 import java.time.LocalDate;
 
+import com.hitms.lms.model.Member;
 import com.hitms.lms.util.LibraryUtils;
 
 /**
  * Driver class for the LMS. It exercises the modules from the labs so the
  * whole thing can be checked from one console run: lab 03 checks the two
- * helpers, the rest walks through add, issue, and return on the service.
+ * helpers, the rest walks through add, issue, return, and a lookup on the
+ * service.
  */
 public final class Main {
 
@@ -20,7 +22,7 @@ public final class Main {
      *
      * @param args command line arguments, ignored
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MemberNotFoundException {
         // lab 03: importing and reusing the util package
         System.out.println(LibraryUtils.formatTitle(" the great gatsby "));
         System.out.println(LibraryUtils.daysBetween(
@@ -39,6 +41,14 @@ public final class Main {
             System.out.println("Remaining copies: " + library.returnBook("Effective Java"));
         } catch (BookUnavailableException e) {
             System.out.println("Transaction failed: " + e.getMessage());
+        }
+
+        // lab 05: member lookup added on the feature branch
+        System.out.println(library.findMemberById("m101"));
+        try {
+            library.findMemberById("m999"); // never registered, raises the custom exception
+        } catch (MemberNotFoundException e) {
+            System.out.println("Lookup failed: " + e.getMessage());
         }
     }
 }
