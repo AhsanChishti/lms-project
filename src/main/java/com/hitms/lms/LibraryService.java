@@ -30,6 +30,12 @@ public class LibraryService {
      * @param copies the number of copies to add
      */
     public void addBook(String title, int copies) {
+        if (title == null || title.strip().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be blank.");
+        }
+        if (copies <= 0) {
+            throw new IllegalArgumentException("Copies must be positive.");
+        }
         String key = LibraryUtils.formatTitle(title);
         Book book = catalogue.get(key);
         if (book == null) {
@@ -49,6 +55,10 @@ public class LibraryService {
      * @param name the member name
      */
     public void addMember(String id, String name) {
+        if (id == null || !id.strip().toUpperCase().matches("M\\d+")) {
+            // membership numbers follow the M + digits pattern used at the desk
+            throw new IllegalArgumentException("Member id must look like M101.");
+        }
         members.put(new Member(id, name).getId(), new Member(id, name));
     }
 
@@ -61,6 +71,9 @@ public class LibraryService {
      */
     public int issueBook(String title) throws BookUnavailableException {
         // Issues one copy of the given title.
+        if (title == null || title.strip().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be blank.");
+        }
         Book book = findBook(title);
         if (book.getAvailableCopies() == 0) {
             throw new BookUnavailableException("'" + book.getTitle() + "' has no copies available.");
