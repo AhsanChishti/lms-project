@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<!-- Style rules used in the SEC321L labs, based on the Sun style guide. -->
+<module name="Checker">
+    <property name="severity" value="warning"/>
+
+    <property name="charset" value="UTF-8"/>
+
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="fileExtensions" value="java"/>
+    </module>
+    <module name="NewlineAtEndOfFile"/>
+    <module name="FileTabCharacter"/>
+
+    <module name="TreeWalker">
+        <!-- Naming conventions from lab 02 -->
+        <module name="TypeName"/>
+        <module name="MethodName"/>
+        <module name="MemberName"/>
+        <module name="ParameterName"/>
+        <module name="LocalVariableName"/>
+        <module name="ConstantName"/>
+        <module name="StaticVariableName"/>
+        <module name="PackageName">
+            <property name="format" value="^com\.hitms(\.[a-z][a-z0-9]*)*$"/>
+        </module>
+
+        <!-- Imports -->
+        <module name="AvoidStarImport"/>
+        <module name="UnusedImports"/>
+        <module name="RedundantImport"/>
+
+        <!-- Formatting braces and whitespace -->
+        <module name="NeedBraces"/>
+        <module name="LeftCurly"/>
+        <module name="RightCurly"/>
+        <module name="WhitespaceAround"/>
+        <module name="WhitespaceAfter"/>
+        <module name="UpperEll"/>
+        <module name="MethodLength">
+            <property name="max" value="60"/>
+        </module>
+
+        <!-- Documenting code, also from lab 02 -->
+        <module name="JavadocType"/>
+        <module name="JavadocMethod"/>
+        <module name="MissingJavadocMethod"/>
+        <module name="JavadocVariable"/>
+
+        <!-- Class design -->
+        <module name="HideUtilityClassConstructor"/>
+    </module>
+</module>
