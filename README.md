@@ -1,4 +1,4 @@
-﻿# LMS Project
+# LMS Project
 
 A small library management system built up over the SEC321L Software Construction labs. Requires JDK 17 or newer. Everything lives in the `com.hitms` package tree.
 
@@ -12,6 +12,12 @@ mvn clean install
 
 ```
 mvn test
+```
+
+## Check style
+
+```
+mvn checkstyle:check
 ```
 
 ## Run
